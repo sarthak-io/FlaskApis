@@ -8,13 +8,13 @@ from datetime import datetime, timedelta
 app = Flask(__name__)
 CORS(app)
 
-cred = credentials.Certificate("imagedata-cb-firebase-adminsdk-eg04o-d94f0ee134.json")
-firebase_admin.initialize_app(cred, {'storageBucket': 'imagedata-cb.appspot.com'})
+cred = credentials.Certificate("htmldata-cb-firebase-adminsdk-77jcv-0cab9fad50.json")
+firebase_admin.initialize_app(cred, {'storageBucket': 'htmldata-cb.appspot.com'})
 
-ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png', 'gif'}
+ALLOWED_EXTENSIONS = {'txt'}
 
 def get_download_url(file, file_name):
-    expiration_time = datetime.utcnow() + timedelta(days=90)
+    expiration_time = datetime.utcnow() + timedelta(days=365)
     expiration_timestamp = int(expiration_time.timestamp())
     # Assuming the images are stored in Firebase Storage
     bucket = storage.bucket()
@@ -37,16 +37,17 @@ def allowed_file(filename):
 @app.route('/upload', methods=['POST'])
 def upload_image():
     try:
-        images = {}
+        txtFiles = {}
         for key, file in request.files.items():
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 download_url = get_download_url(file, filename)
-                images[key] = download_url
-        return jsonify(images), 200
+                txtFiles[key] = download_url
+        return jsonify(txtFiles), 200
     except Exception as e:
         print(f"Error uploading image: {str(e)}")
         return jsonify({'error': 'Internal Server Error'}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
+
