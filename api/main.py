@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 app = Flask(__name__)
 CORS(app)
 
-cred = credentials.Certificate("imagedata-cb-firebase-adminsdk-eg04o-d94f0ee134.json")
+cred = credentials.Certificate("htmldata-cb-firebase-adminsdk-77jcv-0cab9fad50.json")
 firebase_admin.initialize_app(cred, {'storageBucket': 'imagedata-cb.appspot.com'})
 
 ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png', 'gif'}
